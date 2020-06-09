@@ -32,7 +32,6 @@ public class ClientHandler extends Thread {
                     break;
                 }
                 server.sentAllClients(name+message, this);
-                System.out.println(message);
             }
         }catch (IOException e) {
             e.printStackTrace();
@@ -65,5 +64,9 @@ public class ClientHandler extends Thread {
         byte[] data = new byte[32 * 1024];
         int readBytes = in.read(data);
         return new String(data,0,readBytes);
+    }
+
+    public String getClientName() {
+        return name;
     }
 }
