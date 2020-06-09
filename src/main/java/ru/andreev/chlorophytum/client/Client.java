@@ -15,8 +15,6 @@ public class Client {
 
     private final int PORT = 18000;
 
-    private String name;
-
     public Client() {
 
         Socket socket;

@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class ThreadSend extends Thread {
 
-    private OutputStream out;
-    private Scanner scanner = new Scanner(System.in);
+    private final OutputStream out;
+    private final Scanner scanner = new Scanner(System.in);
 
     public ThreadSend(OutputStream out) {
         this.out = out;
