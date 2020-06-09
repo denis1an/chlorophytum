@@ -11,9 +11,7 @@ public class ClientHandler extends Thread {
     private final Socket socket;
     private final InputStream in;
     private final OutputStream out;
-
-    private final String NAME = "(Guest#1)";
-
+    private String name;
     public ClientHandler(Socket socket, Server server) throws IOException {
         this.server = server;
         this.socket = socket;
@@ -25,14 +23,15 @@ public class ClientHandler extends Thread {
     @Override
     public void run() {
         try {
+            name = convertByteToString();
+            name = "[" + name + "]";
+            server.sentAllClients(name + " connected to server ...");
             while (true){
-                byte[] data = new byte[32 * 1024];
-                int readBytes = in.read(data);
-                String message = new String(data,0,readBytes);
+                String message = convertByteToString();
                 if(message.equalsIgnoreCase("/exit")){
                     break;
                 }
-                server.sentAllClients(NAME+message, this);
+                server.sentAllClients(name+message, this);
                 System.out.println(message);
             }
         }catch (IOException e) {
@@ -60,5 +59,11 @@ public class ClientHandler extends Thread {
         } finally {
             server.remove(this);
         }
+    }
+
+    private String convertByteToString() throws IOException {
+        byte[] data = new byte[32 * 1024];
+        int readBytes = in.read(data);
+        return new String(data,0,readBytes);
     }
 }
